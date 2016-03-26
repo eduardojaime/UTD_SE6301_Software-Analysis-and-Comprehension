@@ -46,8 +46,8 @@ public class UnusedVariableVisitor extends ASTVisitor {
 	private Set<String> fieldUses;
 	private Set<String> localUses;
 
-	public UnusedVariableVisitor(PrintWriter writer) {
-		this.writer = writer;
+	public UnusedVariableVisitor() {
+		//this.writer = writer;
 	}
 
 	public UnusedVariableVisitor(CompilationUnit root) {
@@ -67,9 +67,9 @@ public class UnusedVariableVisitor extends ASTVisitor {
 					System.out.println(
 							String.format("* The [%s] [%s] is declared but " + "never read in the code (line:[%d])",
 									type, variableName, lineNumber));
-					writer.println(
+					/*writer.println(
 							String.format("* The [%s] [%s] is declared but " + "never read in the code (line:[%d])",
-									type, variableName, lineNumber));
+									type, variableName, lineNumber));*/
 				}
 			}
 		});
@@ -169,10 +169,6 @@ public class UnusedVariableVisitor extends ASTVisitor {
 	public boolean visit(Assignment node) {
 		// TODO: last name from left hand side of assignment is not a read
 
-		if (node.getRightHandSide().toString().contains("this")) {
-			String as = "#@#@";
-		}
-
 		// Get the right hand side of the expression.
 		// If it an InfixExpression (Example: Numerical + 1)
 		if (node.getRightHandSide() instanceof InfixExpression) {
@@ -249,7 +245,7 @@ public class UnusedVariableVisitor extends ASTVisitor {
 			}
 		});
 
-		// node.getBody().accept(this);
+		node.getBody().accept(this);
 
 		return false;
 	}
